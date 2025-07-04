@@ -1,5 +1,4 @@
 ---
-import { nama, desk, url, google, yandex } from '../utils/site.ts';
 
 export interface Props {
   title: string;
@@ -19,6 +18,11 @@ const currentUrl = url;
 const siteDescription = desk;
 
 const ogImageFullUrl = new URL(`${url}/logo.png`, url).href;
+const url = import.meta.env.PUBLIC_SITE_URL;
+const nama = import.meta.env.PUBLIC_SITE_NAME;
+const desk = import.meta.env.PUBLIC_SITE_DESCRIPTION;
+const google = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
+const yandex = import.meta.env.PUBLIC_YANDEX_SITE_VERIFICATION;
 
 const websiteSchema = {
   "@context": "http://schema.org",
