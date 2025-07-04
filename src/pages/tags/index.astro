@@ -5,7 +5,6 @@
 import Layout from '../../layouts/BaseLayout.astro';
 import { getAllVideos, type VideoData } from '../../utils/data.ts';
 import { slugify } from '../../utils/slugify.ts';
-import { nama, url } from '../../utils/site.ts'; // Opsional, jika digunakan untuk meta
 export const prerender = true;
 
 // Ambil semua tags unik saat build time
@@ -25,6 +24,9 @@ allVideos.forEach(video => {
 
 // Konversi Set ke Array dan urutkan secara alfabetis
 const sortedTags = Array.from(uniqueTags).sort((a, b) => a.localeCompare(b));
+const url = import.meta.env.PUBLIC_SITE_URL;
+const nama = import.meta.env.PUBLIC_SITE_NAME;
+const desk = import.meta.env.PUBLIC_SITE_DESCRIPTION;
 
 const breadcrumbs = [
   { name: 'Home', url: `${url}` },

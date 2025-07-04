@@ -4,7 +4,6 @@ import Layout from '../../../layouts/BaseLayout.astro';
 import VideoCard from '../../../components/VideoCard.astro';
 import { getAllVideos, type VideoData } from '../../../utils/data.ts';
 import { slugify } from '../../../utils/slugify';
-import { nama, url } from '../../../utils/site.ts';
 
 export const prerender = true;
 
@@ -85,6 +84,8 @@ export async function getStaticPaths() {
   }
   return paths;
 }
+const url = import.meta.env.PUBLIC_SITE_URL;
+const nama = import.meta.env.PUBLIC_SITE_NAME;
 
 const { categoryName, currentPage, totalPages, videos: paginatedVideos, preconnectDomains } = Astro.props;
 
@@ -136,7 +137,7 @@ const breadcrumbs = [
     {totalPages > 1 && (
       <nav class="pagination" aria-label="Navigasi Page Kategori">
         {currentPage > 1 && (
-          <a href={`${url}/category/${slugify(categoryName)}/${currentPage - 1}`} class="pagination-link">&laquo; Sebelumnya</a>
+          <a href={`/category/${slugify(categoryName)}/${currentPage - 1}`} class="pagination-link">&laquo; Sebelumnya</a>
         )}
         {Array.from({ length: totalPages }, (_, i) => i + 1)
           .filter(p =>
@@ -148,7 +149,7 @@ const breadcrumbs = [
                 <span class="pagination-link ellipsis">...</span>
               )}
               <a
-                href={`${url}/category/${slugify(categoryName)}/${pageNumber}`}
+                href={`/category/${slugify(categoryName)}/${pageNumber}`}
                 class={`pagination-link ${pageNumber === currentPage ? 'active' : ''}`}
               >
                 {pageNumber}
@@ -159,7 +160,7 @@ const breadcrumbs = [
           <span class="pagination-link ellipsis">...</span>
         )}
         {currentPage < totalPages && (
-          <a href={`${url}/category/${slugify(categoryName)}/${currentPage + 1}`} class="pagination-link">Berikutnya &raquo;</a>
+          <a href={`/category/${slugify(categoryName)}/${currentPage + 1}`} class="pagination-link">Berikutnya &raquo;</a>
         )}
       </nav>
     )}

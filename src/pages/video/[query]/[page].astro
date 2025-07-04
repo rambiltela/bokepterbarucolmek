@@ -1,6 +1,5 @@
 ---
 // src/pages/video/[query]/[page].astro
-import { nama, url, desk } from '../../../utils/site.ts';
 import Layout from '../../../layouts/BaseLayout.astro';
 import VideoCard from '../../../components/VideoCard.astro';
 import { getAllVideos, type VideoData } from '../../../utils/data.ts';
@@ -27,7 +26,7 @@ const stopWords = new Set([
   'oleh', 'sejak', 'tanpa', 'melalui', 'tentang', 'terhadap',
   'begitu', 'begini', 'sini', 'situ', 'mana', 'siapa', 'apa', 'mengapa',
   'bagaimana', 'dimana', 'kapan', 'kalau', 'walaupun', 'meskipun', 'bahkan', 'hingga',
-  'sampai', 'baik', 'buruk', 'bokep', 'indo', 'video', 'vidio',
+  'sampai', 'baik', 'buruk',
   // Tambahkan kata-kata lain yang ingin Anda kecualikan
 ]);
 
@@ -182,7 +181,7 @@ if (searchWords.length > 0) {
 }
 
 
-const baseSearchUrl = `${url}/video/${originalQuery}`;
+const baseSearchUrl = `/video/${originalQuery}`;
 
 function capitalizeWords(str: string): string {
   const words = str
@@ -197,6 +196,9 @@ function capitalizeWords(str: string): string {
 }
 
 const displayQuery = capitalizeWords(originalQuery);
+const url = import.meta.env.PUBLIC_SITE_URL;
+const nama = import.meta.env.PUBLIC_SITE_NAME;
+const desk = import.meta.env.PUBLIC_SITE_DESCRIPTION;
 
 const breadcrumbs = [
   { name: 'Home', url: `${url}` },
