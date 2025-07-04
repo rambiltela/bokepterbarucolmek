@@ -3,7 +3,8 @@ import fetch from 'node-fetch';
 import fs from 'fs/promises'; // Using fs/promises for asynchronous file operations
 import path from 'path';     // <--- ENSURE THIS LINE IS PRESENT AND CORRECT
 import { fileURLToPath } from 'url';
-import { index, url } from '../utils/site.ts';
+const url = import.meta.env.PUBLIC_SITE_URL;
+const index = import.meta.env.INDEXNOW_API_KEY_NAME;
 
 // Get __dirname in ES modules
 const __filename = fileURLToPath(import.meta.url);
