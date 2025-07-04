@@ -3,9 +3,9 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "node scripts/generate-indexnow-key.js && node scripts/generate-favicons.js astro build",
-    "start": "node scripts/generate-indexnow-key.js && node scripts/generate-favicons.js astro build",
-    "build": "node scripts/generate-indexnow-key.js && node scripts/generate-favicons.js astro build && node ./scripts/notify-indexnow.js",
+    "dev": "node scripts/generate-indexnow-key.js && node scripts/generate-favicons.js && astro build",
+    "start": "node scripts/generate-indexnow-key.js && node scripts/generate-favicons.js && astro build",
+    "build": "node scripts/generate-indexnow-key.js && node scripts/generate-favicons.js && astro build && node ./scripts/notify-indexnow.js",
     "preview": "astro preview",
     "generate-favicons": "node scripts/generate-favicons.js",
     "generate-indexnow-key": "node scripts/generate-indexnow-key.js",
@@ -17,8 +17,8 @@
   "dependencies": {
     "@astrojs/cloudflare": "^10.2.2",
     "@astrojs/sitemap": "^3.4.1",
-    "dotenv": "^17.0.1",
     "astro": "^4.10.1",
+    "dotenv": "^17.0.1",
     "node-fetch": "^3.3.2"
   },
   "devDependencies": {

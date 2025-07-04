@@ -2,14 +2,13 @@
 import fs from 'fs/promises';
 import path from 'path';
 import dotenv from 'dotenv'; // Import dotenv
-import { index } from '../utils/site.ts';
 
 // Muat variabel lingkungan dari .env
 // Penting: Pastikan ini dijalankan di lingkungan Node.js di mana .env berada.
 // Jika script ini dijalankan oleh CI/CD, variabel mungkin sudah tersedia sebagai ENV vars.
 dotenv.config();
 
-const API_KEY_NAME = {index};
+const API_KEY_NAME = process.env.INDEXNOW_API_KEY_NAME;
 const PUBLIC_DIR = 'public'; // Folder public Astro Anda
 
 async function generateIndexNowKeyFile() {

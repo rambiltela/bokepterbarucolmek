@@ -3,7 +3,6 @@ import favicons from 'favicons';
 import fs from 'fs/promises';
 import path from 'path';
 import dotenv from 'dotenv';
-import { nama, desk, url } from '../utils/site.ts';
 dotenv.config();
 
 const SOURCE_IMAGE = 'public/favicon.svg';
@@ -15,10 +14,10 @@ async function generateFavicons() {
 
     const configuration = {
       path: '/',
-      appName: {nama},
-      appDescription: {desk},
-      developerName: {nama},
-      developerURL: {url},
+      appName: process.env.PUBLIC_SITE_NAME,
+      appDescription: process.env.PUBLIC_SITE_DESCRIPTION,
+      developerName: process.env.PUBLIC_SITE_NAME,
+      developerURL: process.env.PUBLIC_SITE_URL,
       background: '#ffffff',
       theme_color: '#ffffff',
       display: 'standalone',
