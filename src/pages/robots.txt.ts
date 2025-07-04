@@ -1,6 +1,5 @@
 // src/pages/robots.txt.ts
-import { url } from '../utils/site.ts';
-const SITE_URL = {url};
+const SITE_URL = import.meta.env.PUBLIC_SITE_URL;
 
 export async function GET() {
   const robotsTxtContent = `
