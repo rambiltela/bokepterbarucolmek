@@ -1,40 +1,10 @@
 ---
 // src/pages/404.astro
 import Layout from '../layouts/BaseLayout.astro';
-import VideoCard from '../components/VideoCard.astro';
-import { getAllVideos, type VideoData } from '../utils/data';
-import { slugify } from '../utils/slugify';
 
-export const prerender = true;
-const url = import.meta.env.PUBLIC_SITE_URL;
+export const prerender = true; // Halaman 404 biasanya di-prerender
 const nama = import.meta.env.PUBLIC_SITE_NAME;
-const desk = import.meta.env.PUBLIC_SITE_DESCRIPTION;
-const terbit = import.meta.env.PUBLIC_SITE_PUBLISHED_DATE;
-
-const allVideos: VideoData[] = await getAllVideos();
-
-// Ambil beberapa video acak untuk ditampilkan
-const numberOfRandomVideos = 16;
-const randomVideos: VideoData[] = allVideos
-  .sort(() => 0.5 - Math.random())
-  .slice(0, numberOfRandomVideos);
-
-const allDomains = new Set<string>();
-
-randomVideos.forEach(video => {
-  try {
-    if (video.thumbnail) {
-      allDomains.add(new URL(video.thumbnail).origin);
-    }
-    if (video.embedUrl) {
-      allDomains.add(new URL(video.embedUrl).origin);
-    }
-  } catch (e) {
-    console.error(`[ERROR] URL thumbnail/video tidak valid untuk video ID ${video.id} (404 random videos):`, e);
-  }
-});
-
-const preconnectDomains = Array.from(allDomains);
+const url = import.meta.env.PUBLIC_SITE_URL;
 
 const breadcrumbs = [
   { name: 'Home', url: `${url}` },
@@ -45,7 +15,6 @@ const breadcrumbs = [
 <Layout
   title={`404 - Halaman Tidak Ditemukan | ${nama}`}
   description={`Maaf, halaman yang Anda cari tidak dapat ditemukan di ${nama}.`}
-  preconnectDomains={preconnectDomains}
   siteName={nama}
   siteUrl={url}
 >
@@ -83,16 +52,6 @@ const breadcrumbs = [
       </div>
     </div>
 
-    {randomVideos.length > 0 && (
-      <section class="random-videos-section">
-        <h2 class="section-title">Video Pilihan Lainnya</h2>
-        <div class="video-grid">
-          {randomVideos.map((video) => (
-            <VideoCard video={video} videoDetailPath={`/${video.id}/${slugify(video.title)}`} />
-          ))}
-        </div>
-      </section>
-    )}
   </main>
 </Layout>
 
