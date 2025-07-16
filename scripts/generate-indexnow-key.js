@@ -1,35 +1,45 @@
 // scripts/generate-indexnow-key.js
 import fs from 'fs/promises';
 import path from 'path';
-import dotenv from 'dotenv'; // Import dotenv
+import { index } from '../src/utils/site.js';
 
-// Muat variabel lingkungan dari .env
-// Penting: Pastikan ini dijalankan di lingkungan Node.js di mana .env berada.
-// Jika script ini dijalankan oleh CI/CD, variabel mungkin sudah tersedia sebagai ENV vars.
-dotenv.config();
-
-const API_KEY_NAME = process.env.INDEXNOW_API_KEY_NAME;
-const PUBLIC_DIR = 'public'; // Folder public Astro Anda
+const PUBLIC_DIR = 'public';
 
 async function generateIndexNowKeyFile() {
-  if (!API_KEY_NAME) {
-    console.warn('Variabel lingkungan INDEXNOW_API_KEY_NAME tidak ditemukan. File kunci IndexNow tidak akan dibuat.');
-    return;
+  const API_KEY_NAME = index;
+
+  if (!API_KEY_NAME || typeof API_KEY_NAME !== 'string' || API_KEY_NAME.length !== 36 || !API_KEY_NAME.includes('-')) {
+    console.error('Error: IndexNow API Key (index) tidak valid atau tidak ditemukan.');
+    console.warn('Silakan tambahkan UUID yang valid (contoh: export const index = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";).');
+    process.exit(1);
   }
 
-  const fileName = `${API_KEY_NAME}.txt`; // Nama file: af3fca12-7873-411d-a6f0-dd59857f59a5.txt
+  console.log(`Menggunakan kunci IndexNow ${API_KEY_NAME}`);
+
+  const fileName = `${API_KEY_NAME}.txt`;
   const filePath = path.join(PUBLIC_DIR, fileName);
-  const fileContent = API_KEY_NAME; // Isi file adalah nilai dari API_KEY_NAME itu sendiri
+  const fileContent = API_KEY_NAME;
 
   try {
-    // Pastikan direktori public/ ada (jika belum ada)
-    await fs.mkdir(PUBLIC_DIR, { recursive: true });
-
-    // Tulis konten ke dalam file
-    await fs.writeFile(filePath, fileContent);
-    console.log(`Berhasil membuat file kunci IndexNow: ${filePath}`);
+    await fs.access(filePath);
+    console.log(`File kunci IndexNow sudah ada: ${filePath}`);
+    console.log(`Menggunakan kunci yang sudah ada: ${API_KEY_NAME}`);
+    return; 
   } catch (error) {
-    console.error(`Gagal membuat file kunci IndexNow: ${error}`);
+    if (error.code !== 'ENOENT') {
+      console.error(`Kesalahan saat memeriksa keberadaan file kunci: ${error.message}`);
+      process.exit(1);
+    }
+  }
+
+  try {
+    await fs.mkdir(PUBLIC_DIR, { recursive: true });
+    await fs.writeFile(filePath, fileContent);
+    console.log(`Berhasil membuat file kunci IndexNow baru: ${filePath}`);
+    console.log(`Isi file: "${fileContent}"`);
+  } catch (error) {
+    console.error(`Gagal menulis file kunci IndexNow: ${error.message}`);
+    process.exit(1);
   }
 }
 
